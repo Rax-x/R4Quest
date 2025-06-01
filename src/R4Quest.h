@@ -1,5 +1,5 @@
-#ifndef _HTTPLIB_
-#define _HTTPLIB_
+#ifndef _R4QUEST_
+#define _R4QUEST_
 
 #include <string>
 #include <vector>
@@ -21,6 +21,7 @@ private:
     std::string &receive_response();
     void send_headers(const std::string url, const int port);
     std::string &send_request(const std::string url, const int port, const std::string method, const std::string body);
+
 public:
 
     HTTPClient();
@@ -40,6 +41,5 @@ public:
     void set_header(const std::string header);
     void set_header(const std::string key, const std::string value);
 };
-
 
 #endif

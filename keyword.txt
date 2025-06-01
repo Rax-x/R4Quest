@@ -7,7 +7,6 @@
 #######################################
 
 HTTPClient	KEYWORD1
-HTTPServer  KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
