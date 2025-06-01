@@ -1,22 +1,27 @@
 #include "HTTPLib.h"
 
-#include <string>
-#include <vector>
-
 HTTPClient::HTTPClient() {
-    this->set_header("User-Agent: Arduino/2.2.0");
+    this->set_header("User-Agent: ArduinoWiFi/1.1");
     this->set_header("Connection: close");
 }
 
 HTTPClient::~HTTPClient(){
-    clean_headers();
+    this->clear_headers();
 }
 
-void HTTPClient::clean_headers() {
-    const int headers_length = this->headers.size();
+void HTTPClient::clear_headers() {
+    this->headers.clear();
+}
 
-    for (unsigned int i = 0; i < headers_length; i++)
-        this->headers.pop_back();
+std::string &HTTPClient::receive_response() {
+    std::string response {};
+
+    while (client.available()) {
+        char c = client.read();
+        response.append(c);
+    }
+
+    return response;
 }
 
 void HTTPClient::remove_header(const std::string header) {
@@ -31,8 +36,47 @@ void HTTPClient::remove_header_by_key(const std::string key) {
             this->headers.erase(this->headers.begin() + i);
 }
 
-int HTTPClient::send_request(const std::string url, const std::string method, const std::string body) {
-    
+std::string &HTTPClient::request_delete(const std::string url, const int port, const std::string body) {
+    this->send_request(url, port, "DELETE", body);
+}
+
+std::string &HTTPClient::request_get(const std::string url, const int port, const std::string body) {
+    this->send_request(url, port, "GET", body);
+}
+
+std::string &HTTPClient::request_post(const std::string url, const int port, const std::string body) {
+    this->send_request(url, port, "POST", body);
+}
+
+std::string &HTTPClient::request_put(const std::string url, const int port, const std::string body) {
+    this->send_request(url, port, "PUT", body);
+}
+
+void HTTPClient::send_headers(const std::string url, const int port) {
+    if (this->client.available())
+        for (auto &header: headers) 
+            this->client.println(header);
+}
+
+std::string &HTTPClient::send_request(const std::string url, const int port, const std::string method, const std::string body) {
+    std::string response {};
+
+    if (this->client.connect(url, port)) {
+        this->client.print(method);
+        this->client.println(" / HTTP/1.1");
+        this->client.print("Host: ");
+        this->client.println(url);
+        
+        this->send_headers();
+
+        this->client.println(body);
+        this->client.println();
+
+        response = this->receive_response();
+        this->client.stop();
+    }
+
+    return response
 }
 
 void HTTPClient::set_authorization(const std::string auth) {

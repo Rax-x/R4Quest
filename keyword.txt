@@ -1,0 +1,33 @@
+#######################################
+# Syntax Coloring Map For HTTPLib
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+HTTPClient	KEYWORD1
+HTTPServer  KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+clear_headers KEYWORD2
+remove_header KEYWORD2
+remove_header_by_key KEYWORD2
+request_delete KEYWORD2
+request_get KEYWORD2
+request_post KEYWORD2
+request_put KEYWORD2
+set_authorization KEYWORD2
+set_header KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+HTTP_OK LITERAL1
+HTTP_NOT_FOUND LITERAL1
+HTTP_TIMEOUT LITERAL1
+HTTP_INTERNAL_ERROR LITERAL1
+HTTP_UNAVAILABLE LITERAL1
